@@ -1,0 +1,4 @@
+* @yudbox
+*.js @yudbox
+*.yml @yudbox
+/public/ @yudbox
