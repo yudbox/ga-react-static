@@ -23,7 +23,7 @@ jobs:
       # устанавливаем 12 ноду
         uses: actions/setup-node@v1
         with:
-          node-version: "12.x"
+          node-version: "14.x"
       # тоже что и npm install
       - run: npm ci
       # запускаем скрипт prittifaer из файла package.json
