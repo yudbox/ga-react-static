@@ -15,9 +15,9 @@ jobs:
       - name: Cache node_modules folder
         run: actions/cache@v1
         with: ~/.npm
-        key: ${{ runner.os }}-node-${{ hashFiles('**/package-lock.json') }}
-        restore-key: |
-          ${{ runner.os }}-node-
+          key: ${{ runner.os }}-node-${{ hashFiles('**/package-lock.json') }}
+          restore-key: |
+            ${{ runner.os }}-node-
       - name: use NodeJS
       # устанавливаем 12 ноду
         uses: actions/setup-node@v1
