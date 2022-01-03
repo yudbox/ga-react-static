@@ -42,6 +42,7 @@
   },
   "devDependencies": {
     "gh-pages": "^3.2.3",
-    "prettier": "2.5.1"
+    "prettier": "2.5.1",
+    "semantic-release": "^18.0.1"
   }
 }
