@@ -13,13 +13,17 @@ jobs:
       - name: use NodeJS
         uses: actions/setup-node@v1
         with:
-          node_version: "12.x"
+          node-version: "12.x"
       # тоже что и npm install
       - run: npm ci
       - run: npm run format:check
       - run: npm run test -- --coverage
         env:
           CI: true
+      - name: Check folders
+        run: |
+          ls -la
+          pwd
       - name: Build Project
         if: github.event_name == 'push'
         uses: JamesIves/github-pages-deploy-action@4.1.7
