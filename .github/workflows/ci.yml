@@ -1,4 +1,5 @@
 name: CI
+# запускается когда pull_request или push в ветку develop
 on:
   pull_request:
     branches: [develop]
@@ -9,27 +10,52 @@ jobs:
   build:
     runs-on: ubuntu-latest
     steps:
+    # копируем все папаки
       - uses: actions/checkout@v2
+      - name: Cache node_modules folder
+        run: actions/cache@v1
+        with: ~/.npm
+          key: ${{ runner.os }}-node-${{ hashFiles('**/package-lock.json') }}
+          restore-key: |
+            ${{ runner.os }}-node-
       - name: use NodeJS
+      # устанавливаем 12 ноду
         uses: actions/setup-node@v1
         with:
           node-version: "12.x"
       # тоже что и npm install
       - run: npm ci
+      # запускаем скрипт prittifaer из файла package.json
       - run: npm run format:check
+      # запускаем test из файла package.json
       - run: npm run test -- --coverage
         env:
           CI: true
+      - name: Upload artifact Test coverage
+        uses: actions/upload-artifact@v1
+        with:
+          name: code-coverage
+          path: coverage
       - name: Build command
+      # если событие является push
         if: github.event_name == 'push'
+        # запускаем predeploy из файла package.json
         run: npm run predeploy
+      - name: Upload artifact Build Folder
+        if: github.event_name == 'push'
+        uses: actions/upload-artifact@v1
+        with:
+          name: build
+          path: build
       - name: Check folders
         run: |
           ls -la
           pwd
         
       - name: Build Project
+      # опять если событие является push
         if: github.event_name == 'push'
+          # запускаем action который скопирует папаку build в хостинг github pages
         uses: JamesIves/github-pages-deploy-action@4.1.7
         with:
           branch: gh-pages # The branch the action should deploy to.
