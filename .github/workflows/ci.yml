@@ -2,9 +2,9 @@ name: CI
 # запускается когда pull_request или push в ветку develop
 on:
   pull_request:
-    branches: [develop]
+    branches: [develop, master]
   push:
-    branches: [develop]
+    branches: [develop, master]
 
 jobs:
   build:
@@ -38,7 +38,7 @@ jobs:
         with:
           name: code-coverage
           path: coverage
-      - name: Build command
+      - name: Build Project
       # если событие является push
         if: github.event_name == 'push'
         # запускаем predeploy из файла package.json
@@ -53,8 +53,13 @@ jobs:
         run: |
           ls -la
           pwd
-        
-      - name: Build Project
+# https://github.com/semantic-release/semantic-release/blob/HEAD/docs/usage/installation.md#installation
+      - name: Create a Release Version
+        if: github.event_name == 'push' && github.ref == 'refs/heads/master'
+        run: npx semantic-release
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+      - name: Deploy Project to Github Pages
       # опять если событие является push
         if: github.event_name == 'push'
           # запускаем action который скопирует папаку build в хостинг github pages
@@ -62,4 +67,3 @@ jobs:
         with:
           branch: gh-pages # The branch the action should deploy to.
           folder: build # The folder the action should deploy.
-# https://github.com/semantic-release/semantic-release/blob/HEAD/docs/usage/installation.md#installation
