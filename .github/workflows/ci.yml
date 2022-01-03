@@ -13,7 +13,7 @@ jobs:
     # копируем все папаки
       - uses: actions/checkout@v2
       - name: Cache node_modules folder
-        run: actions/cache@v1
+        uses: actions/cache@v1
         with:
           path: ~/.npm
           key: ${{ runner.os }}-node-${{ hashFiles('**/package-lock.json') }}
