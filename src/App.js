@@ -17,7 +17,6 @@ function App() {
         >
           Learn React
         </a>
-        1111111
       </header>
     </div>
   );
