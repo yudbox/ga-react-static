@@ -20,10 +20,14 @@ jobs:
       - run: npm run test -- --coverage
         env:
           CI: true
+      - name: Build command
+        if: github.event_name == 'push'
+        run: npm run predeploy
       - name: Check folders
         run: |
           ls -la
           pwd
+        
       - name: Build Project
         if: github.event_name == 'push'
         uses: JamesIves/github-pages-deploy-action@4.1.7
