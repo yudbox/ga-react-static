@@ -53,16 +53,34 @@ jobs:
         run: |
           ls -la
           pwd
-# https://github.com/semantic-release/semantic-release/blob/HEAD/docs/usage/installation.md#installation
+      - name: Deploy Project to Develop site
+      # опять если событие является push
+        if: github.event_name == 'push' && github.ref == 'refs/heads/develop'
+          # запускаем action который скопирует папаку build в хостинг github pages
+        uses: JamesIves/github-pages-deploy-action@4.1.7
+        with:
+          branch: gh-pages # The branch the action should deploy to.
+          folder: build # The folder the action should deploy.
+       # https://github.com/semantic-release/semantic-release
+       # если пушить изменения в master можно указать версию релиза, для этого через npm устанавливаем плагин semantic-release
+       # он автоматически генерируе версию в зависимости от коммита который ты пушишь.
+       # обязательно создаем файл release.config в корне, в нем указываем все данные и плагины для работы с мастером
+       # github.event_name == 'push' && github.ref == 'refs/heads/master условие сработает только когда пуш в мастер
+       # git commit -m "perf: some description" - performance обновит мажорную версию (ломают предыдущую функциональность)
+       # git commit -m "feat: some description" обновит минорную версию (новые фичи, не ломают)
+       # git commit -m "fix: some description" обновит патч версию (исправление багов)
+       # git commit -m "docs: some description" обновит патч версию (исправление багов, новая документация)
+       # git commit -m "ci: some description" обновит патч версию (изменения в ymlфайле)
+       # git commit -m "style: some description" обновит патч версию (обновление стилистики проекта)
       - name: Create a Release Version
         if: github.event_name == 'push' && github.ref == 'refs/heads/master'
         run: npx semantic-release
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-      - name: Deploy Project to Github Pages
+      - name: Deploy Project to Production site
       # опять если событие является push
-        if: github.event_name == 'push'
-          # запускаем action который скопирует папаку build в хостинг github pages
+        if: github.event_name == 'push' && github.ref == 'refs/heads/master'
+          # запускаем action который деплоит на продакшн
         uses: JamesIves/github-pages-deploy-action@4.1.7
         with:
           branch: gh-pages # The branch the action should deploy to.

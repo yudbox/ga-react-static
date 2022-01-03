@@ -41,7 +41,10 @@
     ]
   },
   "devDependencies": {
+    "@commitlint/cli": "^16.0.1",
+    "@commitlint/config-conventional": "^16.0.0",
     "gh-pages": "^3.2.3",
+    "husky": "^7.0.4",
     "prettier": "2.5.1",
     "semantic-release": "^18.0.1"
   }
