@@ -14,7 +14,8 @@ jobs:
       - uses: actions/checkout@v2
       - name: Cache node_modules folder
         run: actions/cache@v1
-        with: ~/.npm
+        with:
+          path: ~/.npm
           key: ${{ runner.os }}-node-${{ hashFiles('**/package-lock.json') }}
           restore-key: |
             ${{ runner.os }}-node-
