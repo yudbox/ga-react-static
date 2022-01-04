@@ -1,0 +1,29 @@
+name: Notify on Release
+on:
+  release:
+    types:
+      - published
+# https://api.slack.com/
+# click Create an App -> click Create new app 
+# in modal choose From scratch
+# App Name-> my bot name , Pick a workspace to develop your app in: -> choose workspase for chating
+# если нет нужного пространства, создается новое пространство (это группа в слаке) и выбирай его
+# жми Create app
+# сколим ниже выбирай Incoming Webhooks -> в новом окне переключай радиобатн в ON
+# click button Add new webhook to workspace
+# в селекте выбираем общий или general
+# копируем curl и идем сюда в steps
+# url webhook для слак прячем в секрет SLACK_WEBHOOK_URL
+# для того чтоб запустить этот экшн в файле ci.yml job: npx semantic-release сама запустит этот экшн
+# одно условия для GITHUB_TOKEN нужно использовать не общий secrets.GITHUB_TOKEN а специально сгенерированный 
+# secrets.CUSTOM_TOKEN. В CUSTOM_TOKEN ложим токен из общих settings
+jobs:
+  slack-message:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Slack message
+        env:
+          SLACK_TEXT: "New release ${{ github.event.release.tag_name }} is out, <${{ github.event.release.html_url }}|check it out now.>"
+        run: |
+        curl -X POST -H 'Content-type: application/json' --data '{"text":${SLACK_TEXT}}' ${{ secrets.SLACK_WEBHOOK_URL }}
+          
