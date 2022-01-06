@@ -56,6 +56,7 @@ function App() {
        <ThemeProvider>
 
         <div className="App">
+        learn react
           <button onClick={decrementCount}>-</button>
           <span>{count}</span>
           <button onClick={incrementCount}>+</button>
