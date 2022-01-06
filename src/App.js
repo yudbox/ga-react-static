@@ -1,4 +1,4 @@
-import { useState, useMemo, useRef, useEffect, useReducer } from "react";
+import { useState, useRef, useEffect, useReducer } from "react";
 import "./App.css";
 import { ThemeProvider } from "./context/ThemeContext";
 import { Counter } from "./Counter";
@@ -73,11 +73,11 @@ function App() {
   );
 }
 
-const slowFunction = (num) => {
-  console.log('Calling slow function 1');
-  for(let i = 0; i < 1000000000; i++) {}
-  console.log('Calling slow function 2');
-  return  num * 2
-}
+// const slowFunction = (num) => {
+//   console.log('Calling slow function 1');
+//   for(let i = 0; i < 1000000000; i++) {}
+//   console.log('Calling slow function 2');
+//   return  num * 2
+// }
 
 export default App;

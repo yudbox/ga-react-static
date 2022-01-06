@@ -1,9 +1,9 @@
 import React from "react";
-import { useTheme, useThemeUpdate } from "./context/ThemeContext";
+import { useTheme } from "./context/ThemeContext";
 
 export const Counter = () => {
     const theme = useTheme()
-    const themeUpdate = useThemeUpdate()
+    // const themeUpdate = useThemeUpdate()
     return (
         <div>
             {theme}
