@@ -77,11 +77,16 @@ jobs:
         run: npx semantic-release
         env:
           GITHUB_TOKEN: ${{ secrets.CUSTOM_TOKEN }}
-      - name: Deploy Project to Production site
+      - name: Build Project
       # опять если событие является push
         if: github.event_name == 'push' && github.ref == 'refs/heads/master'
           # запускаем action который деплоит на продакшн
-        uses: JamesIves/github-pages-deploy-action@4.1.7
-        with:
-          branch: gh-pages # The branch the action should deploy to.
-          folder: build # The folder the action should deploy.
+        run: npm run build
+      - name: Deploy Project to Production site
+        if: github.event_name == 'push' && github.ref == 'refs/heads/master'   
+        run: npx surge --project ./build --domain  yudbox-reactapp.surge.sh
+        # чтоб сгенерировать токен пишем surge SURGE_TOKEN
+        # чтоб узнать свой логин пишем surge whoami
+        env:
+          SURGE_LOGIN: ${{ secrets.SURGE_LOGIN }}
+          SURGE_TOKEN: ${{ secrets.SURGE_TOKEN }}
