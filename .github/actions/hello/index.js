@@ -1,3 +1,12 @@
+// https://github.com/vercel/ncc
+// т.к.actions не копируют в репозиторий дополнительные модули нужно установить который будет собирать
+// indexe.js and node_modules в один файл. Для этого устналиваем пакет по ссылке выше
+// устанавливаем пакет
+// npm i -g @vercel/ncc
+// запускаем билд
+// ncc./ github / actions / hello / index.js - o./ github / actions / hello / dist
+// и в папке с экшеном появляется папака dist с собранным файлом
+
 // https://github.com/actions/toolkit
 // $ npm install @actions/github
 // $ npm install @actions/core

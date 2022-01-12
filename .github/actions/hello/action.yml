@@ -11,4 +11,5 @@ outputs:
     description: "When you say hello"
 runs:
   using: "node16"
-  main: "index.js"
+  main: "dist/index.js"
+  # в main указываем путь к скомпелированному файлу в котором собран и javascript and node_modules packages
