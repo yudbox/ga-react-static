@@ -1,0 +1,14 @@
+name: Hello World
+author: yudbox
+description: This is action for greeting yudbox
+inputs:
+  who-say-hello:
+    description: "What is your name"
+    required: true
+    default: yudbox
+outputs:
+  my-time:
+    description: "When you say hello"
+runs:
+  using: "node16"
+  main: "index.js"
