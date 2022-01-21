@@ -8445,7 +8445,11 @@ var __webpack_exports__ = {};
 // https://github.com/vercel/ncc
 // т.к.actions не копируют в репозиторий дополнительные модули нужно установить который будет собирать
 // indexe.js and node_modules в один файл. Для этого устналиваем пакет по ссылке выше
-
+// устанавливаем пакет
+// npm i -g @vercel/ncc
+// запускаем билд
+// ncc./ github / actions / hello / index.js - o./ github / actions / hello / dist
+// и в папке с экшеном появляется папака dist с собранным файлом
 
 // https://github.com/actions/toolkit
 // $ npm install @actions/github
@@ -8456,31 +8460,27 @@ const core = __nccwpck_require__(272)
 const github = __nccwpck_require__(1728)
 
 try {
-    // throw(new Error("my custom error"))
-    // это будет выводится только если в секретах есть ключ ACTIONS_STEP_DEBUG - true
-    core.debug('Some debug message')
-    core.warning('Some worning message')
-    core.error('Some error message')
+    const token = core.getInput('token')
+    const title = core.getInput('title')
+    const body = core.getInput('body')
+    const assignees = core.getInput('assignees')
 
-    const name = core.getInput('who-say-hello')
-    core.setSecret(name)
-    // в раннере name будет выводится как секрет ***
-    console.log(`Hello ${name}`);
+    const octokit = new github.Github(token)
 
-    const time = new Date()
-    core.setOutput("my-time", time.toLocaleDateString())
+    const response = octokit.issues.create({
+        // owner: github.context.repo.owner,
+        // repo: github.context.repo.repo,
+        ...github.context.repo,
+        title,
+        body,
+        assignees: assignees ? assignees.split('\n') : undefined
 
-    core.startGroup("Logging github object")
-    console.log(JSON.stringify(github, null, '\t'));
-    core.endGroup()
-    // создаст кастомную переменную которую можно будет использовать в action   
-    core.exportVariable("CASTOM_VAR", "hello")
+    })
+
+    core.setOutput('issue', JSON.stringify(response.data))
 } catch (error) {
     core.setFailed(error.message)
 }
-
-
-
 })();
 
 module.exports = __webpack_exports__;

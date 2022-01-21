@@ -4,7 +4,7 @@
 // устанавливаем пакет
 // npm i -g @vercel/ncc
 // запускаем билд
-// ncc./ github / actions / hello / index.js - o./ github / actions / hello / dist
+// ncc build ./.github/actions/hello/index.js -o ./.github/actions/issue/dist
 // и в папке с экшеном появляется папака dist с собранным файлом
 
 // https://github.com/actions/toolkit
@@ -29,12 +29,14 @@ try {
 
     const time = new Date()
     core.setOutput("my-time", time.toLocaleDateString())
-
+     // core.startGroup соберет всю инфу внутри группы в акардион при выводе    
     core.startGroup("Logging github object")
     console.log(JSON.stringify(github, null, '\t'));
     core.endGroup()
+
+
     // создаст кастомную переменную которую можно будет использовать в action   
-    core.exportVariable("CASTOM_VAR", "hello")
+    core.exportVariable("CASTOM_VAR", "this is custom var for output")
 } catch (error) {
     core.setFailed(error.message)
 }
